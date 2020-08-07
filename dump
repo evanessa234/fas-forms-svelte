@@ -1,0 +1,216 @@
+<script>
+  import { v4 } from "uuid";
+
+  let course = {
+    labCourse: true,
+    co_poMapping: [],
+    co_psoMapping: [],
+    assessmentMethod: []
+  };
+
+  let assessmentArray = [];
+  let assNo = ["Assignment1", "Assignment2", "Assignment3"];
+  let termTestNo = ["Term Test 1", "Term Test 2"];
+
+  let cos = ["CO1", "CO2", "CO3", "CO4", "CO5", "CO6"];
+  let questionNos = [1, 2, 3];
+
+  for (var i = 0; i < questionNos.length; i++) {
+    assessmentArray[i] = new Array(questionNos[0].length).fill();
+
+    for (var j = 0; j < cos.length; j++) {
+      assessmentArray[i][j] = {
+        //id: v4(),
+        assessMethod: termTestNo[0],
+        Q_no: questionNos[i],
+        co_meet: cos[j],
+        marks: ""
+      };
+
+      assessmentArray[i + 3] = new Array(1, questionNos[0].length, 6).fill();
+      for (var j = 0; j < cos.length; j++) {
+        assessmentArray[i + 3][j] = {
+          //id: v4(),
+          assessMethod: termTestNo[0],
+          Q_no: questionNos[i],
+          co_meet: cos[j],
+          marks: ""
+        };
+      }
+    }
+  }
+
+  // for (var i = 0; i < questionNos.length; i++) {
+  //   assessmentArray[i] = new Array(questionNos[0].length).fill();
+
+  //   for (var j = 0; j < cos.length; j++) {
+  //     assessmentArray[i + 3][j] = {
+  //       //id: v4(),
+  //       assessMethod: termTestNo[0],
+  //       Q_no: questionNos[i],
+  //       co_meet: cos[j],
+  //       marks: ""
+  //     };
+  //   }
+  // }
+
+  const addtermTest = () => {
+    course.assessmentMethod = [];
+    for (var i = 0; i < questionNos.length; i++) {
+      for (var j = 0; j < cos.length; j++) {
+        if (course.assessmentMethod[i][j].rating) {
+          course.assessmentMethod = course.assessmentMethod.concat(
+            assessmentArray[i][j]
+          );
+        }
+      }
+    }
+  };
+
+  // const addco_po_mapping = () => {
+  //   course.co_poMapping = []
+  //   for (var i = 0; i < cos.length; i++) {
+  //     for (var j = 0; j < pos.length; j++) {
+  //       if (copo[i][j].rating) {
+  //         course.co_poMapping = course.co_poMapping.concat(copo[i][j]);
+  //       }
+  //     }
+  //   }
+  // };
+
+  // for (var i = 0; i < cos.length; i++) {
+  //   copso[i] = new Array(cos[0].length).fill();
+
+  //   for (var j = 0; j < psos.length; j++) {
+  //     copso[i][j] = {
+  //       id: v4(),
+  //       co_no: cos[i],
+  //       pso_no: psos[j],
+  //       rating: ""
+  //     };
+  //   }
+  // }
+
+  // const addco_pso_mapping = () => {
+  //   course.co_psoMapping = [];
+  //   for (var i = 0; i < cos.length; i++) {
+  //     for (var j = 0; j < psos.length; j++) {
+  //       if (copso[i][j].rating) {
+  //         course.co_psoMapping = course.co_psoMapping.concat(copso[i][j]);
+  //       }
+  //     }
+  //   }
+  // };
+</script>
+
+<style>
+  /* input {
+    width: 10%;
+  } */
+</style>
+
+<form on:submit|preventDefault>
+  <div>
+    <h4>Assessment Method (Term test)</h4>
+    {termTestNo[0]}
+    <br />
+    {#each cos as co}
+      <span style="margin-left: 30px;">{co}</span>
+    {/each}
+    <br />
+    {#each questionNos as questionNo, i}
+      Q{questionNo}
+      {#each cos as co, j}
+        <input type="text" size="1" bind:value={assessmentArray[i][j]} />
+      {/each}
+      <br />
+    {/each}
+    {termTestNo[1]}
+    <br />
+    {#each cos as co}
+      <span style="margin-left: 30px;">{co}</span>
+    {/each}
+    <br />
+    {#each questionNos as questionNo, i}
+      Q{questionNo}
+      {#each cos as co, j}
+        <input type="text" size="1" bind:value={assessmentArray[i+3][j]} />
+      {/each}
+      <br />
+    {/each}
+    <button on:click={addtermTest}>Save</button>
+    <br />
+    {JSON.stringify(course.assessmentMethod)}
+  </div>
+  <hr />
+</form>
+
+
+//////////////////////////////////////////////////////////////
+
+<script>
+  import { v4 } from "uuid";
+
+    let course = {
+      co_poMapping: [],
+    }
+    let cos = ["CO1", "CO2", "CO3", "CO4", "CO5", "CO6"];
+    let pos = ["PO1", "PO2", "PO3", "PO4", "PO5", "PO6"];
+    let co_po_map = [];
+    const addco_po_mapping = () => {
+      co_po_mapping = co_po_mapping.concat({
+        co_po_id: v4(),
+        co_no: '',
+        po_no: '',
+        rating: 0
+      });
+  }
+ let a = new Array(2);
+</script>
+
+<style>
+  input {
+  width: 10%;
+}
+</style>
+<form>
+  <div><h4> Map CO with PO</h4>
+      {#each cos as co, i}
+      {co}
+          {#each pos as po, j ,addco_po_mapping()}
+            <input
+            type="text"
+            bind:value={a[i][j]}
+            placeholder={(i+1)*10+(j+1)} />
+          {/each}
+          <br>
+      {/each}
+      {JSON.stringify(a)};
+  </div>
+</form>
+
+
+/////////////////////////
+course = {
+    subInCharge: "",
+    assistingTeachers: "",
+    fromAcadYr: 2020,
+    toAcadYr: 2020,
+    sem: 4,
+    subjectCode: "",
+    courseName: "",
+    credits: 0,
+    LectHr: 0,
+    totLectHr: 0,
+    practHr: 0,
+    totPractHr: 0,
+    objectives: [],
+    courseOutcomes: [],
+    courseTopics: [],
+    co_poMapping: [],
+    co_psoMapping: [],
+    lessonPlan: [],
+    progOutcomes: [],
+    progSpecificOutcome: [],
+    assessmentMethod: []
+  };
